@@ -1,0 +1,29 @@
+{
+  "$schema": "https://glama.ai/mcp/schemas/server.json",
+  "name": "bumi-mcp",
+  "description": "Noetix Bumi humanoid MCP: specs, OSS links, optional BUMI_ROBOT_URL health, virtual-twin fleet map; FastMCP 3.1 + dashboard 10774/10775.",
+  "repository": {
+    "url": "https://github.com/sandraschi/bumi-mcp",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "pypi",
+      "identifier": "bumi-mcp",
+      "version": "0.1.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ],
+  "keywords": [
+    "noetix",
+    "bumi",
+    "humanoid",
+    "robotics",
+    "mcp",
+    "fastmcp",
+    "resonite",
+    "fleet"
+  ]
+}

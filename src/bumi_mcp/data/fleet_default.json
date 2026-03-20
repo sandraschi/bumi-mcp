@@ -1,0 +1,44 @@
+[
+  {
+    "id": "robotics-mcp",
+    "label": "robotics-mcp",
+    "description": "Composite robotics + noetix_info + vbot CRUD / Resonite OSC",
+    "url": "https://github.com/sandraschi/robotics-mcp"
+  },
+  {
+    "id": "resonite-mcp",
+    "label": "resonite-mcp",
+    "description": "Resonite social VR automation (vbot presence)",
+    "url": "https://github.com/sandraschi/resonite-mcp"
+  },
+  {
+    "id": "unity3d-mcp",
+    "label": "unity3d-mcp",
+    "description": "Unity Editor / batch — virtual robotics, Resonite SDK authoring",
+    "url": "https://github.com/sandraschi/unity3d-mcp"
+  },
+  {
+    "id": "blender-mcp",
+    "label": "blender-mcp",
+    "description": "Blender — meshes, rigs, assets for vbot / VR pipelines",
+    "url": "https://github.com/sandraschi/blender-mcp"
+  },
+  {
+    "id": "worldlabs-mcp",
+    "label": "worldlabs-mcp",
+    "description": "WorldLabs / splat workflows toward Resonite",
+    "url": "https://github.com/sandraschi/worldlabs-mcp"
+  },
+  {
+    "id": "yahboom-mcp",
+    "label": "yahboom-mcp",
+    "description": "Yahboom Raspbot ROS 2",
+    "url": "https://github.com/sandraschi/yahboom-mcp"
+  },
+  {
+    "id": "dreame-mcp",
+    "label": "dreame-mcp",
+    "description": "Dreame vacuum DreameHome cloud",
+    "url": "https://github.com/sandraschi/dreame-mcp"
+  }
+]

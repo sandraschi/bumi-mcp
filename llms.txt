@@ -1,0 +1,23 @@
+# bumi-mcp
+
+> FastMCP 3.1 MCP for **Noetix Bumi** humanoid: hero specs, OSS/GitHub pointers, optional `BUMI_ROBOT_URL` health ping, virtual-twin composition map (resonite-mcp / robotics-mcp / worldlabs-mcp). No implied low-level motion API until vendor bridge is wired.
+
+## Repo
+
+- https://github.com/sandraschi/bumi-mcp
+
+## Run
+
+- stdio: `uv run python -m bumi_mcp` or `bumi-mcp` entrypoint
+- HTTP: `uv run python -m bumi_mcp --serve` → API `10774`, MCP path `/mcp`
+- Web: `web_sota/start.ps1` → Vite `10775` (proxies `/api`, `/mcp`)
+
+## Tools
+
+- `bumi(operation=...)` — info | specs | sdk_links | market (Noetix + China humbot + JD / tier-1 retail) | robot_status | virtual_twin | fleet_peers
+- `bumi_agentic_workflow(goal)` — sampling (SEP-1577)
+- Prompt: `bumi_quick_start`
+
+## Fleet / vbot
+
+Bumi vbot is **composed** from existing MCPs: robotics-mcp, resonite-mcp, unity3d-mcp, blender-mcp, worldlabs-mcp (+ avatar-mcp as needed). See `knowledge.VIRTUAL_TWIN_FLEET` and `data/fleet_default.json`.
