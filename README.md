@@ -41,15 +41,16 @@
 ## Quick start
 
 ```powershell
-cd D:\Dev\repos\bumi-mcp
+git clone https://github.com/sandraschi/bumi-mcp.git
+Set-Location bumi-mcp
 uv sync
 uv run python -m bumi_mcp --serve
 ```
 
-Other terminal:
+Other terminal (from the **same** clone):
 
 ```powershell
-cd D:\Dev\repos\bumi-mcp\web_sota
+Set-Location web_sota
 .\start.ps1
 ```
 
