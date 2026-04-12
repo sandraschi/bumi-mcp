@@ -1,101 +1,57 @@
-# bumi-mcp
+# bumi-mcp (Noetix Bumi Android)
 
 [![GitHub](https://img.shields.io/badge/GitHub-sandraschi%2Fbumi--mcp-181717?logo=github)](https://github.com/sandraschi/bumi-mcp)
 
-**Canonical repo:** [github.com/sandraschi/bumi-mcp](https://github.com/sandraschi/bumi-mcp)  `git clone https://github.com/sandraschi/bumi-mcp.git`
+**Bumi** is a sleek, 1-meter-tall humanoid (android) research platform by **Noetix Robotics** (松延动力). This repository serves as the **Autumn 2026** mission-control gateway—linking the upcoming physical unit with a federated, DDS-powered AI orchestration layer.
 
-**Noetix Bumi** humanoid  FastMCP **3.1** MCP server with SOTA web dashboard, hero specs, Noetix OSS links, optional local robot HTTP ping, and a **virtual-twin composition map**. The **Bumi vbot** is not built inside this repo; it is **enabled by your existing vbot stack**: **robotics-mcp** (orchestration, `robot_virtual`, OSC, vbot CRUD), **resonite-mcp** (sessions, avatars, worlds), **unity3d-mcp** (Editor / batch / Resonite SDK authoring), **blender-mcp** (meshes, rig prep, assets), **worldlabs-mcp** (splats / world ingest toward Resonite), plus other fleet MCPs and their webapps as you wire them.
+---
 
-[![Python](https://img.shields.io/badge/python-3.11%2B-blue)](https://www.python.org)
-[![FastMCP](https://img.shields.io/badge/FastMCP-3.1-blue)](https://gofastmcp.com)
-[![License](https://img.shields.io/badge/license-MIT-green)](LICENSE)
+## 🤖 The Android: Noetix Bumi
 
-## Physical Bumi vs virtual Bumi (read this)
+The **Bumi** (v2 SOTA series) is one of the most agile and hardware-diverse humanoids in the consumer-research bracket, offering industrial-grade performance at a price point (~$1,400) comparable to high-end mobile robots like the ROSMASTER X3 PLUS.
 
-**We do not have a physical Bumi unit yet.** This repo is real software; the robot on the loading dock is not.
+- **Form Factor**: Sleek, minimalistic white "Bipedal Android" chassis.
+- **Dimensions**: ~100 cm (3.3 ft) height | ~20 kg weight.
+- **Kinematics**: 21 Degrees of Freedom (DOF) with high-torque precision servos.
+- **Compute**: On-board NVIDIA Jetson Orin Nano/NX series for real-time inference.
+- **Locomotion**: Advanced bipedal walking, stabilization, and expressive gesture control.
+- **Identity**: A true "Android" assistant capable of navigating complex human environments.
 
-- **Supply:** Noetix is **heavily oversubscribed**. If you are queueing for hardware, assume **months**, not weeks, before a unit ships  and treat any date as tentative until the box arrives.
-- **What you can do today:** A **Bumi vbot** (virtual twin) is **eminently doable now** because the **sandraschi fleet already ships vbot-oriented MCP servers and dashboards**  e.g. **robotics-mcp**, **resonite-mcp**, **unity3d-mcp**, **blender-mcp**, **worldlabs-mcp** (and peers like **avatar-mcp** where you use it). Model in Unity or Blender, drive presence in Resonite, orchestrate from **robotics-mcp**; **bumi-mcp** stays the **Bumi-specific** layer (specs, OSS, prompts, fleet hints). Same MCP habits  **deliberate prep** for the day the physical bot shows up.
-- **`BUMI_ROBOT_URL` / `robot_status`:** For future use when *you* have a local HTTP bridge to a real Bumi or sim; until then, expect `connected: false` and use the **virtual** path above.
+---
 
-## Noetix, Chinas humbot wave, and where buying actually happens
+## 📅 Project Status: Autumn 2026
 
-**Noetix** (, Beijing) is part of the **consumer/education humanoid** story in China  Bumi is positioned as a compact home- or school-friendly humbot with ROS/Linux-friendly tooling and ecosystem hooks (including **JD**-side integrations on vendor materials), not only industrial arms.
+**We do not have a physical Bumi unit yet.** This is our **Autumn Project** hardware target.
 
-**The humbot explosion** (20252026) is structural: many vendors and models, aggressive roadmaps, and a **national standard system** for humanoid robotics and embodied AI (common specs, safety, applications, compute). That combination  **retail channels + standards + manufacturing depth**  is why SKUs like Bumi can show up next to phones on **e-commerce** while still hitting **allocation and wait lists**.
+> [!IMPORTANT]
+> **Working on it!** While the physical unit is not yet in the sandraschi lab, the **FOSS software stack is already available**. We are leveraging the DDS-based SDK and Noetix reinforcement learning environments to build a **Full Virtual Twin (Bumi VT)**.
 
-**Buying (verify live pages before paying):**
+### The Virtual Path
+Since Noetix provides the open-source **[noetix_sdk_bumi](https://github.com/Noetix-Robotics/noetix_sdk_bumi)**, we are developing the logic, the MCP interfaces, and the motion controllers today. We build in the virtual realm so that the deployment to the physical chassis in Autumn 2026 is a "zero-day" integration.
 
-- **[JD.com ()](https://www.jd.com)**  Bumi variants have been listed as consumer SKUs (pre-order / deposit windows move fast). Example listing hubs: [Pro-class SKU](https://item.jd.com/100323634120.html), [EDU-oriented SKU](https://item.jd.com/100323635530.html)  treat as **examples**, not guarantees of current stock.
-- **Walk-up and offline in tier-1 cities**  **Shenzhen, Shanghai, Beijing** remain the practical mesh of **app commerce + physical retail**: JD **pick-up / offline stores**, mall **electronics chains**, **robotics demos**, and dense CE corridors (Shenzhens component ecosystems are the textbook case). Those are realistic places people **discover and close** humbot purchases  but **exact Noetix pop-ups or partner stores change by campaign**, so confirm with **[Noetix contact / sales](https://noetixrobotics.com/contact-us)** and the **live JD listing**, not this README.
+- **Simulation**: Isaac Gym / Isaac Lab (via `noetix_n2_gym`).
+- **Control**: Low-level joint torque and high-level gait control via DDS bridge.
+- **Status**: Virtual Twin Composition Map in progress.
 
-**In MCP:** `bumi(operation="market")` returns structured copy of this context for agents.
+---
 
-## Ports
+## 🏗️ The Virtual Twin Stack
 
-| Service | Port |
-|--------|------|
-| Backend (FastAPI + MCP `/mcp`) | **10774** |
-| Frontend (Vite) | **10775** |
+The **Bumi vbot** is enabled by our existing federated MCP fleet:
+- **robotics-mcp**: High-level orchestration and `robot_virtual` OSC paths.
+- **resonite-mcp**: Presence, avatars, and session scaling.
+- **unity3d-mcp**: SDK authoring and batch rig processing.
+- **blender-mcp**: Mesh preparation and rig-hardening.
 
-## Quick start
+---
 
-```powershell
-git clone https://github.com/sandraschi/bumi-mcp.git
-Set-Location bumi-mcp
-uv sync
-uv run python -m bumi_mcp --serve
-```
+## 🕹️ Interface & Tools
 
-Other terminal (from the **same** clone):
-
-```powershell
-Set-Location web_sota
-.\start.ps1
-```
-
-**Cursor MCP (stdio):**
-
-```json
-{
-  "mcpServers": {
-    "bumi-mcp": {
-      "command": "uv",
-      "args": ["--directory", "D:/Dev/repos/bumi-mcp", "run", "python", "-m", "bumi_mcp", "--stdio"],
-      "env": { "PYTHONPATH": "D:/Dev/repos/bumi-mcp/src" }
-    }
-  }
-}
-```
-
-## Tools
-
-- **`bumi(operation=...)`**  `info` | `specs` | `sdk_links` | `market` | `robot_status` | `virtual_twin` | `fleet_peers`
-- **`bumi_agentic_workflow(goal)`**  SEP-1577 sampling over Bumi + fleet context
-- **Prompt:** `bumi_quick_start` (focus: physical | virtual | fleet)
-
-## Environment
-
-| Variable | Purpose |
-|----------|---------|
-| `BUMI_MCP_HOST` | Bind host (default `127.0.0.1`) |
-| `BUMI_MCP_PORT` | Backend port (default `10774`) |
-| `BUMI_ROBOT_URL` | Optional HTTP base for a local bridge; `robot_status` tries `/health`, `/api/health`, `/status` |
-
-## What this is / isnt
-
-- **Is:** Product + OSS discovery, fleet documentation, **virtual-twin roadmap**, optional health probe when a bridge exists, agentic planning hook. A sane way to **practice the mesh** before hardware lands.
-- **Isnt:** A claim that we ship or own physical Bumi today, or vendor-certified torque/motion APIs (those come **after** hardware + documented interfaces).
-
-## Related (vbot stack)
-
-- [robotics-mcp](https://github.com/sandraschi/robotics-mcp)  `noetix_info`, vbot CRUD, `robot_virtual`, Resonite OSC, workflows
-- [resonite-mcp](https://github.com/sandraschi/resonite-mcp)  Resonite automation + webapp
-- [unity3d-mcp](https://github.com/sandraschi/unity3d-mcp)  Unity Editor / batch / robotics pipelines
-- [blender-mcp](https://github.com/sandraschi/blender-mcp)  3D assets and rig work
-- [worldlabs-mcp](https://github.com/sandraschi/worldlabs-mcp)  splat / world paths toward Resonite
-- [mcp-central-docs/projects/bumi-mcp](https://github.com/sandraschi/mcp-central-docs/tree/master/projects/bumi-mcp)  central index
+Bumi-MCP exposes a standards-compliant interface for agentic control:
+- **`bumi(operation="specs")`**: Returns the latest hardware/software manifests.
+- **`bumi(operation="virtual_twin")`**: Status of the simulation-to-real (Sim2Real) bridge.
+- **`bumi_agentic_workflow(goal)`**: SEP-1577 autonomous planning over the Bumi stack.
 
 ## License
 
-MIT
+MIT - 2026 sandraschi
