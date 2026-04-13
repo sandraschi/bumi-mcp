@@ -26,6 +26,11 @@
 - **Locomotion**: Advanced bipedal walking, stabilization, and expressive gesture control.
 - **Identity**: A true "Android" assistant capable of navigating complex human environments.
 
+### 🏗️ Architecture: The "Modular Android"
+Bumi utilizes a decoupled **Host-Controller** design, identical in philosophy to high-end mobile robots like the Yahboom RosMaster:
+1. **Base Control**: In-house Noetix E1-class motion board for 21-DOF bipedal stability.
+2. **Autonomous Host**: Secondary development bay for Jetson Orin/Pi hosts to run high-level agentic logic and SLAM.
+
 ---
 
 ## 📅 Project Status: Autumn 2026
