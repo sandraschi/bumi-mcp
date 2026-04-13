@@ -28,9 +28,9 @@
 
 ### 🏗️ Architecture: The "Modular Android"
 Bumi utilizes a decoupled **Mothership-Bridge-Controller** design:
-1. **Base Control**: In-house Noetix E1-class motion board for 21-DOF bipedal stability (Master Actuator).
-2. **Local Bridge**: A Raspberry Pi or Jetson host acting as the "Spinal Cord," bridging the E1's serial interface to the network.
-3. **Remote Mothership**: Optional high-power PC for heavy-lift Agentic AI and RL inference via the local bridge.
+1. **Base Control**: In-house Noetix E1-class motion board (21-DOF stability). Wired interfaces only (Ethernet/Serial).
+2. **Local Bridge**: **Raspberry Pi or Jetson (Required)**. Acts as the network bridge for WiFi/5G connectivity.
+3. **Remote Mothership**: PC/Workstation for heavy-lift Agentic AI via the local bridge.
 
 ---
 
