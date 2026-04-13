@@ -2,9 +2,17 @@
 
 [![GitHub](https://img.shields.io/badge/GitHub-sandraschi%2Fbumi--mcp-181717?logo=github)](https://github.com/sandraschi/bumi-mcp)
 
-![Noetix Bumi Hero](https://cdn.shopify.com/s/files/1/0066/9686/1780/files/Yahboom_Raspbot_V2_AI_Robot_Car_Kit_Details_1.jpg)
+<table border="0">
+  <tr>
+    <td width="440">
+      <img src="https://www.noetixrobotics.com/mtsc/uploads/Ckeditor/Images/2026-03-26/Bumi.webp" alt="Noetix Bumi Android">
+    </td>
+    <td valign="top">
+      The <strong>Noetix Bumi</strong> is one of the most agile and hardware-diverse humanoids in the consumer/research robot market, offering reasonable performance at a price point (~$1,400) comparable to hi-end car type robots like the Yahboom RosMaster X3. Or, surprisingly, a hi-end smartphone. Bumi is a great toy for tinkerers and kids of all ages and a true breakthrough on the road to ubiquitous service robots. Because of its small size (1 m) it is nonthreatning and kid friendly.
+    </td>
+  </tr>
+</table>
 
-The **Noetix Bumi** is one of the most agile and hardware-diverse humanoids in the consumer/research robot market, offering reasonable performance at a price point (~$1,400) comparable to hi-end car type robots like the Yahboom RosMaster X3. Or, surprisingly, a hi-end smartphone. Bumi is a great toy for tinkerers and kids of all ages and a true breakthrough on the road to ubiquitous service robots. Because of its small size (1 m) it is nonthreatning and kid friendly.
 
 ---
 
