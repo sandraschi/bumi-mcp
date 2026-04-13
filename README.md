@@ -18,9 +18,8 @@
 
 ## 🤖 The Android: Noetix Bumi
 
-The **Bumi** (v2 SOTA series) is one of the most agile and hardware-diverse humanoids in the consumer-research bracket, offering industrial-grade performance at a price point (~$1,400) comparable to high-end mobile robots like the ROSMASTER X3 PLUS.
-
 - **Form Factor**: Sleek, minimalistic white "Bipedal Android" chassis.
+
 - **Dimensions**: ~100 cm (3.3 ft) height | ~20 kg weight.
 - **Kinematics**: 21 Degrees of Freedom (DOF) with high-torque precision servos.
 - **Compute**: On-board NVIDIA Jetson Orin Nano/NX series for real-time inference.
