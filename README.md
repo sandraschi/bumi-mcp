@@ -22,7 +22,7 @@
 
 - **Dimensions**: ~100 cm (3.3 ft) height | ~20 kg weight.
 - **Kinematics**: 21 Degrees of Freedom (DOF) with high-torque precision servos.
-- **Compute**: On-board NVIDIA Jetson Orin Nano/NX series for real-time inference.
+- **Compute**: Specialized motion control (Base) | Optional NVIDIA Jetson Orin (Research/EDU).
 - **Locomotion**: Advanced bipedal walking, stabilization, and expressive gesture control.
 - **Identity**: A true "Android" assistant capable of navigating complex human environments.
 
