@@ -42,7 +42,7 @@ Bumi utilizes a decoupled **Mothership-Bridge-Controller** design:
 **We do not have a physical Bumi unit yet.** This is our **Autumn Project** hardware target.
 
 > [!IMPORTANT]
-> **Working on it!** While the physical unit is not yet in the sandraschi lab, the **FOSS software stack is already available**. We are leveraging the DDS-based SDK and Noetix reinforcement learning environments to build a **Full Virtual Twin (Bumi VT)**.
+> **Active Training Ground**: While the Bumi is in the Virtual Twin phase, we are running the **[yahboom-mcp](file:///D:/Dev/repos/yahboom-mcp)** with a **physical in-house Raspbot (Boomy)**. We use the Yahboom platform as our primary real-world testbed for ROS 2 navigation, semantic SLAM, and agentic autonomy, ensuring that the software stack is battle-tested before the Bumi hardware arrives.
 
 ### The Virtual Path
 Since Noetix provides the open-source **[noetix_sdk_bumi](https://github.com/Noetix-Robotics/noetix_sdk_bumi)**, we are developing the logic, the MCP interfaces, and the motion controllers today. We build in the virtual realm so that the deployment to the physical chassis in Autumn 2026 is a "zero-day" integration.
