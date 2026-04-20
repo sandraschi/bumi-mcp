@@ -1,3 +1,13 @@
+﻿Param([switch]$Headless)
+
+# --- SOTA Headless Standard ---
+if ($Headless -and ($Host.UI.RawUI.WindowTitle -notmatch 'Hidden')) {
+    Start-Process pwsh -ArgumentList '-NoProfile', '-File', $PSCommandPath, '-Headless' -WindowStyle Hidden
+    exit
+}
+$WindowStyle = if ($Headless) { 'Hidden' } else { 'Normal' }
+# ------------------------------
+
 # bumi-mcp SOTA dashboard: FastAPI + MCP on 10774, Vite on 10775
 $BackendPort = 10774
 $FrontendPort = 10775
@@ -55,3 +65,4 @@ Start-Process powershell -ArgumentList "-NoProfile", "-WindowStyle", "Hidden", "
 Write-Host "Browser will open automatically when Vite is ready." -ForegroundColor Gray
 Write-Host "Backend  $ApiHealth" -ForegroundColor Green
 Write-Host "Frontend http://127.0.0.1:$FrontendPort" -ForegroundColor Green
+
