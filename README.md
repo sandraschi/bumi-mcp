@@ -33,6 +33,20 @@
 - Autonomous lying down / standing up
 - Open Source SDK & development tools
 
+### Ordering
+
+No direct e-commerce (no JD.com, Amazon, etc.). Noetix sells B2B through their sales team:
+
+| Contact | Details |
+|---------|---------|
+| **Sales email** | sales@noetixrobotics.com |
+| **Hotline** | 400-096-9300 (Mon-Fri 10:00-19:00 Beijing) |
+| **WeChat** | Scan QR code on [noetixrobotics.com/en/contact-us](https://noetixrobotics.com/en/contact-us) |
+| **Inquiry form** | [noetixrobotics.com/en/contact-us?t=a](https://www.noetixrobotics.com/en/contact-us?t=a) |
+| **Partner inquiry** | [Become an agent](https://www.noetixrobotics.com/en/eco-partnership) |
+
+Pricing from ~10,000 CNY (~€1,300) for Lite model. Models: Lite · Air · Pro · Max · EDU-Air · EDU-Pro · EDU-Max. Price depends on model and quantity — contact sales for quote.
+
 ---
 
 ## Architecture
