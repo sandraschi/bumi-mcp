@@ -1,88 +1,78 @@
-# bumi-mcp (Noetix Bumi Android)
+# Bumi MCP — Noetix Bumi Humanoid Robot Control
 
-[![FastMCP Version](https://img.shields.io/badge/FastMCP-3.1.0-blue?style=flat-square&logo=python&logoColor=white)](https://github.com/sandraschi/fastmcp) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![Linted with Biome](https://img.shields.io/badge/Linted_with-Biome-60a5fa?style=flat-square&logo=biome&logoColor=white)](https://biomejs.dev/) [![Built with Just](https://img.shields.io/badge/Built_with-Just-000000?style=flat-square&logo=gnu-bash&logoColor=white)](https://github.com/casey/just)
+**MCP server + ROS 2 control for the Noetix Bumi humanoid robot.**
 
-[![GitHub](https://img.shields.io/badge/GitHub-sandraschi%2Fbumi--mcp-181717?logo=github)](https://github.com/sandraschi/bumi-mcp)
-
-<table border="0">
-  <tr>
-    <td width="220" valign="top">
-      <img src="https://www.noetixrobotics.com/mtsc/uploads/Ckeditor/Images/2026-03-26/Bumi.webp" width="220" alt="Noetix Bumi Android">
-    </td>
-    <td valign="top">
-      The <strong>Noetix Bumi</strong> is one of the <strong>newest</strong> humanoids in the consumer/research robot market, offering reasonable performance at a price point (~$1,400) comparable to hi-end car type robots like the Yahboom RosMaster X3. Or, surprisingly, a hi-end smartphone. Bumi is a great toy for tinkerers and kids of all ages and a true breakthrough on the road to ubiquitous service robots. Because of its small size (1 m) it is nonthreatning and kid friendly.
-    </td>
-  </tr>
-</table>
-
+> Ported architecture from yahboom-mcp (Raspbot v2). Designed for Bumi EDU models with NVIDIA Jetson Orin.
 
 ---
 
-## 🤖 The Android: Noetix Bumi
+## Bumi Product Info
 
-- **Form Factor**: Sleek, minimalistic white "Bipedal Android" chassis.
+| Spec | Value |
+|------|-------|
+| **Manufacturer** | Noetix Robotics (Beijing) — 北京松延动力科技集团股份有限公司 |
+| **Website** | [noetixrobotics.com](https://noetixrobotics.com/en/product/n2/1262) |
+| **Models** | Lite · Air · Pro · Max · EDU-Air · EDU-Pro · EDU-Max |
+| **Price** | From ~10,000 CNY (~€1,300 / ~$1,400) — "world's first 10k-CNY class humanoid" |
+| **Height/Weight** | 98cm / ~17kg |
+| **DOF** | 21 (6 per leg, 4 per arm, 1 lumbar, hands) |
+| **Compute (base)** | 6 TOPS |
+| **Compute (EDU)** | NVIDIA Jetson Orin Nano Super / Orin NX |
+| **Sensors** | RGB camera, IMU |
+| **Battery** | 48V 3.5Ah, 2-3h runtime, quick-swap |
+| **Connectivity** | WiFi + Bluetooth, optional 4G/5G |
+| **Knee torque** | 70 N·m |
+| **Status** | **Shipping** — thousands of orders placed (Dec 2025 news) |
 
-- **Dimensions**: ~100 cm (3.3 ft) height | ~20 kg weight.
-- **Kinematics**: 21 Degrees of Freedom (DOF) with high-torque precision servos.
-- **Compute**: Specialized motion control (Base) | Optional NVIDIA Jetson Orin (Research/EDU).
-- **Locomotion**: Advanced bipedal walking, stabilization, and expressive gesture control.
-- **Identity**: A true "Android" assistant capable of navigating complex human environments.
-
-### 🏗️ Architecture: The "Modular Android"
-Bumi utilizes a decoupled **Mothership-Bridge-Controller** design:
-1. **Base Control**: In-house Noetix E1-class motion board (21-DOF stability). Runs **Micro-ROS (DDS-XRCE)** for network-native telemetry. Handles hard real-time balance loops.
-2. **Local Bridge**: **Raspberry Pi or Jetson (Required)**. Acts as the network bridge for WiFi/5G connectivity.
-3. **Remote Mothership**: PC/Workstation (RTX 4090+) for heavy-lift Agentic AI via the local bridge.
-
-> [!IMPORTANT]
-> **Hardware Connectivity Note**: The E1 master controller board lacks a native wireless chipset. For wireless mothership control, an intermediate host (Pi/Jetson) is required to bridge the serial/Ethernet stream. Alternatively, an **Ethernet-to-WiFi bridge/dongle** can be used to expose the raw E1 network interface directly to the WLAN.
-
----
-
-## 📅 Project Status: Autumn 2026
-
-**We do not have a physical Bumi unit yet.** This is our **Autumn Project** hardware target.
-
-> [!IMPORTANT]
-> **Active Training Ground**: While the Bumi is in the Virtual Twin phase, we are running the **[yahboom-mcp](file:///D:/Dev/repos/yahboom-mcp)** with a **physical in-house Raspbot (Boomy)**. We use the Yahboom platform as our primary real-world testbed for ROS 2 navigation, semantic SLAM, and agentic autonomy, ensuring that the software stack is battle-tested before the Bumi hardware arrives.
-
-### The Virtual Path
-Since Noetix provides the open-source **[noetix_sdk_bumi](https://github.com/Noetix-Robotics/noetix_sdk_bumi)**, we are developing the logic, the MCP interfaces, and the motion controllers today. We build in the virtual realm so that the deployment to the physical chassis in Autumn 2026 is a "zero-day" integration.
-
-- **Simulation**: Isaac Gym / Isaac Lab (via `noetix_n2_gym`).
-- **Control**: Low-level joint torque and high-level gait control via DDS bridge.
-- **Status**: Virtual Twin Composition Map in progress.
+### Features (from Noetix)
+- "Bumi Bumi" voice wake word + interaction
+- Object recognition (RGB camera)
+- One-click auto-standing on startup
+- Mobile app control + visual programming
+- Smart OTA updates
+- Autonomous lying down / standing up
+- Open Source SDK & development tools
 
 ---
 
-## 🏗️ The Virtual Twin Stack
+## Architecture
 
-The **Bumi vbot** is enabled by our existing federated MCP fleet:
-- **robotics-mcp**: High-level orchestration and `robot_virtual` OSC paths.
-- **resonite-mcp**: Presence, avatars, and session scaling.
-- **unity3d-mcp**: SDK authoring and batch rig processing.
-- **blender-mcp**: Mesh preparation and rig-hardening.
+This repo adapts the proven yahboom-mcp stack for Bumi:
 
----
+```
+PC (Goliath) ──Tailscale── Bumi (Jetson Orin)
+                              │
+                         rosbridge:9090
+                              │
+                         mission_executor
+                              │
+                         Bumi SDK (motion, vision, sensors)
+```
 
-## 🕹️ Interface & Tools
+- **rosbridge** in Docker (same fix pattern: disable host rosbridge, use container)
+- **Mission executor** from yahboom-mcp — subscribes `/boomy/mission`, executes autonomous behaviors
+- **Vision detection** — SSD MobileNet v2 COCO (same bridge, Bumi's camera input)
+- **Coffee shop demo** — Tailscale WiFi client mode for remote control
+- **Ollama** on device for LLM-based mission planning (Gemma3:1b or larger on Orin)
 
-Bumi-MCP exposes a standards-compliant interface for agentic control:
-- **`bumi(operation="specs")`**: Returns the latest hardware/software manifests.
-- **`bumi(operation="virtual_twin")`**: Status of the simulation-to-real (Sim2Real) bridge.
-- **`bumi_agentic_workflow(goal)`**: SEP-1577 autonomous planning over the Bumi stack.
+## Files
 
+| File | Origin | Purpose |
+|------|--------|---------|
+| `minimal_mission_executor.py` | yahboom-mcp | ROS 2 mission executor with obstacle avoidance + vision matching |
+| `vision_bridge.py` | yahboom-mcp | SSD MobileNet v2 COCO detection -> `/boomy/detections_json` |
+| `scripts/deploy.sh` | yahboom-mcp | One-shot Pi/Orin deploy script |
+| `docs/AUTONOMOUS_MISSIONS.md` | yahboom-mcp | Ollama planning -> ROS execution pipeline |
+| `docs/COFFEESHOP_DEMO.md` | yahboom-mcp | Tailscale remote control setup |
+| `ros2/bumi_mission_executor/` | Forked from `boomy_mission_executor` | ROS 2 package for mission execution |
 
-## 🛡️ Industrial Quality Stack
+## Getting Started
 
-This project adheres to **SOTA 14.1** industrial standards for high-fidelity agentic orchestration:
-
-- **Python (Core)**: [Ruff](https://astral.sh/ruff) for linting and formatting. Zero-tolerance for `print` statements in core handlers (`T201`).
-- **Webapp (UI)**: [Biome](https://biomejs.dev/) for sub-millisecond linting. Strict `noConsoleLog` enforcement.
-- **Protocol Compliance**: Hardened `stdout/stderr` isolation to ensure crash-resistant JSON-RPC communication.
-- **Automation**: [Justfile](./justfile) recipes for all fleet operations (`just lint`, `just fix`, `just dev`).
-- **Security**: Automated audits via `bandit` and `safety`.
+1. Set up Tailscale on Bumi and your PC
+2. Install rosbridge in Docker on Bumi's Orin
+3. `./scripts/deploy.sh <bumi-tailscale-ip>`
+4. `YAHBOOM_IP=<bumi-tailscale-ip> uv run python -m mcp_bridge`
 
 ## License
 
-MIT - 2026 sandraschi
+MIT
