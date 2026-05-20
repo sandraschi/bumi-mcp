@@ -7,6 +7,9 @@
   <a href="https://github.com/PrefectHQ/fastmcp"><img src="https://img.shields.io/badge/FastMCP-3.2-7c5cfc?style=flat-square" alt="FastMCP"></a>
 </p>
 
+
+> 📖 **[Installation Guide](INSTALL.md)** — quick start, manual setup, and troubleshooting
+
 **MCP server + ROS 2 control for the Noetix Bumi humanoid robot.**
 
 > Ported architecture from yahboom-mcp (Raspbot v2). Designed for Bumi EDU models with NVIDIA Jetson Orin.
