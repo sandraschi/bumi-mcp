@@ -17,3 +17,5 @@ FastMCP 3.1.0 MCP for Noetix Bumi humanoid — hero specs, OSS links, fleet virt
 - `README.md` — full documentation
 - `pyproject.toml` — build config and entry points
 - `CLAUDE.md` — Claude Code context (if present)
+
+Install docs: follow mcp-central-docs/standards/AGENT_INSTALL_REFERENCE.md
