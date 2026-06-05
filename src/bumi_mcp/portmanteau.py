@@ -33,7 +33,8 @@ async def bumi_tool(
         info           — tagline + vendor + key specs (default)
         specs          — full structured hero dict
         sdk_links      — GitHub repos + opensource landing page
-        robot_status   — if BUMI_ROBOT_URL set, GET {url}/health or /api/health; else connected=false
+        robot_status   — GET health on BUMI_ROBOT_URL or local /api/v1/health when serving
+        telemetry      — live joint/IMU/battery when HTTP bridge connected (mock or hardware)
         virtual_twin   — how to drive virtual Bumi via resonite-mcp / robotics-mcp / worldlabs-mcp
         fleet_peers    — yahboom-mcp / dreame-mcp / robotics-mcp narrative for RoboFang fleet
         market         — Noetix story, China humbot wave, JD.com + tier-1 offline context (not legal advice)
@@ -84,6 +85,9 @@ async def bumi_tool(
         if op == "robot_status":
             return await _robot_status()
 
+        if op == "telemetry":
+            return _telemetry()
+
         if op == "virtual_twin":
             return {
                 "success": True,
@@ -115,7 +119,7 @@ async def bumi_tool(
             "success": False,
             "error": (
                 f"Unknown operation: {operation}. "
-                "Use: info, specs, sdk_links, market, robot_status, virtual_twin, fleet_peers."
+                "Use: info, specs, sdk_links, market, robot_status, telemetry, virtual_twin, fleet_peers."
             ),
         }
     except Exception as e:
@@ -124,17 +128,26 @@ async def bumi_tool(
 
 
 async def _robot_status() -> dict[str, Any]:
-    base = (os.environ.get("BUMI_ROBOT_URL") or "").strip().rstrip("/")
-    if not base:
+    from bumi_mcp.bridge_state import get_bridge
+
+    bridge = get_bridge()
+    if bridge and bridge.connected:
+        from bumi_mcp.testing.mock_bridge import MockBumiBridge
+
         return {
             "success": True,
-            "connected": False,
-            "message": (
-                "No BUMI_ROBOT_URL set. When a local bridge exposes HTTP, set e.g. "
-                "BUMI_ROBOT_URL=http://192.168.1.50:8080 and robot_status will GET /health or /api/health."
-            ),
+            "connected": True,
+            "source": "in_process_bridge",
+            "mock": isinstance(bridge, MockBumiBridge),
+            "mode": bridge.state.get("mode"),
+            "telemetry_hint": "bumi(operation='telemetry')",
         }
-    for path in ("/health", "/api/health", "/status"):
+
+    base = (os.environ.get("BUMI_ROBOT_URL") or "").strip().rstrip("/")
+    if not base:
+        port = (os.environ.get("BUMI_MCP_PORT") or "10774").strip()
+        base = f"http://127.0.0.1:{port}"
+    for path in ("/api/v1/health", "/health", "/api/health", "/status"):
         url = f"{base}{path}"
         try:
             async with httpx.AsyncClient(timeout=3.0) as client:
@@ -158,5 +171,22 @@ async def _robot_status() -> dict[str, Any]:
     return {
         "success": True,
         "connected": False,
-        "message": f"Could not reach {base} on /health, /api/health, or /status.",
+        "message": f"Could not reach {base} on /api/v1/health, /health, /api/health, or /status.",
+    }
+
+
+def _telemetry() -> dict[str, Any]:
+    from bumi_mcp.bridge_state import get_bridge
+
+    bridge = get_bridge()
+    if not bridge or not bridge.connected:
+        return {
+            "success": True,
+            "connected": False,
+            "message": "Bridge offline. Run `just serve` with BUMI_USE_MOCK_BRIDGE=1 or set BUMI_IP.",
+        }
+    return {
+        "success": True,
+        "connected": True,
+        "telemetry": bridge.get_full_telemetry(),
     }

@@ -2,7 +2,7 @@
 
 **Session**: 2026-05-07
 **Operator**: Sandra
-**Status**: Ported architecture from yahboom-mcp, pre-scaffold
+**Status**: v0.2 bridge scaffold — mock + `/api/v1` ready; physical SDK topics TBD when EDU unit arrives. See [STATUS.md](STATUS.md), [INTEGRATION.md](INTEGRATION.md).
 
 ---
 
@@ -35,8 +35,9 @@ The yahboom-mcp autonomous mission stack transfers directly:
 ## Next Actions
 
 1. Contact sales@noetixrobotics.com for EDU-Max quote
-2. When Bumi arrives, run `scripts/deploy.sh <tailscale-ip>`
-3. Adapt I2C/servo commands to Bumi's SDK
+2. When Bumi arrives: follow [INTEGRATION.md](INTEGRATION.md) — Tailscale, rosbridge, telemetry, then gated motion
+3. Map Noetix SDK topics into `.env` (`BUMI_WALK_CMD_TOPIC`, `BUMI_ESTOP_TOPIC`, …)
+4. Add `BumiAdapter` in teleoperator-mcp once walk/estop validated
 
 ---
 

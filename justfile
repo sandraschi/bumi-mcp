@@ -49,6 +49,10 @@ stdio:
 test:
     uv run pytest -q
 
+ci:
+    uv sync --all-extras
+    uv run pytest -q
+
 fmt:
     uv run ruff format .
     uv run ruff check --fix .

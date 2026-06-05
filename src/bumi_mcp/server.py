@@ -15,8 +15,8 @@ mcp = FastMCP(
     "bumi-mcp",
     instructions=(
         "Noetix Bumi humanoid (hero consumer robot): use bumi(operation=...) for specs, "
-        "OSS/SDK links, optional BUMI_ROBOT_URL health ping, and virtual_twin fleet map. "
-        "Physical motion control belongs behind vendor SDK / ROS — not implied here until wired."
+        "OSS/SDK links, robot_status/telemetry via /api/v1 when bridge connected, and virtual_twin fleet map. "
+        "Physical motion is gated (BUMI_ALLOW_MOTION=1 + vendor topics)."
     ),
 )
 

@@ -10,9 +10,9 @@
 
 > 📖 **[Installation Guide](INSTALL.md)** — quick start, manual setup, and troubleshooting
 
-**MCP server + ROS 2 control for the Noetix Bumi humanoid robot.**
+**MCP server + REST bridge scaffold for the Noetix Bumi humanoid.**
 
-> Ported architecture from yahboom-mcp (Raspbot v2). Designed for Bumi EDU models with NVIDIA Jetson Orin.
+> v0.2 adds `/api/v1/*` (health, telemetry, gated control) and mock bridge for CI/teleoperator prep. Full physical motion awaits EDU hardware + Noetix SDK topic mapping — see [STATUS.md](STATUS.md) and [INTEGRATION.md](INTEGRATION.md).
 
 ---
 
@@ -61,34 +61,37 @@ Pricing from ~10,000 CNY (~€1,300) for Lite model. Models: Lite · Air · Pro 
 
 ## Architecture
 
-This repo adapts the proven yahboom-mcp stack for Bumi:
-
 ```
 PC (Goliath) ──Tailscale── Bumi (Jetson Orin)
                               │
-                         rosbridge:9090
+                         rosbridge :9090
                               │
-                         mission_executor
+                         bumi-mcp :10774  (/api/v1)
                               │
-                         Bumi SDK (motion, vision, sensors)
+                         Noetix SDK (walk, joints, estop)
 ```
 
-- **rosbridge** in Docker (same fix pattern: disable host rosbridge, use container)
-- **Mission executor** from yahboom-mcp — subscribes `/boomy/mission`, executes autonomous behaviors
-- **Vision detection** — SSD MobileNet v2 COCO (same bridge, Bumi's camera input)
-- **Coffee shop demo** — Tailscale WiFi client mode for remote control
-- **Ollama** on device for LLM-based mission planning (Gemma3:1b or larger on Orin)
+- **Mock mode:** `BUMI_USE_MOCK_BRIDGE=1` — no hardware (default in `.env.example`)
+- **Physical:** `BUMI_IP=<tailnet>` + `uv sync --extra robot`
+- **Yahboom copies** in `ros2/`, `minimal_mission_executor.py` — reference only, not biped-safe
 
-## Files
+## Files (physical path)
+
+| File | Purpose |
+|------|---------|
+| `src/bumi_mcp/core/ros2_bridge.py` | roslibpy telemetry + gated walk/estop |
+| `src/bumi_mcp/testing/mock_bridge.py` | CI / dev stand-in |
+| `src/bumi_mcp/api_v1.py` | teleoperator-facing REST |
+| `STATUS.md` / `INTEGRATION.md` | Readiness + bring-up |
+
+## Legacy Yahboom ports (reference)
 
 | File | Origin | Purpose |
 |------|--------|---------|
-| `minimal_mission_executor.py` | yahboom-mcp | ROS 2 mission executor with obstacle avoidance + vision matching |
-| `vision_bridge.py` | yahboom-mcp | SSD MobileNet v2 COCO detection -> `/boomy/detections_json` |
-| `scripts/deploy.sh` | yahboom-mcp | One-shot Pi/Orin deploy script |
-| `docs/AUTONOMOUS_MISSIONS.md` | yahboom-mcp | Ollama planning -> ROS execution pipeline |
-| `docs/COFFEESHOP_DEMO.md` | yahboom-mcp | Tailscale remote control setup |
-| `ros2/bumi_mission_executor/` | Forked from `boomy_mission_executor` | ROS 2 package for mission execution |
+| `minimal_mission_executor.py` | yahboom-mcp | Holonomic missions — **not for Bumi** |
+| `vision_bridge.py` | yahboom-mcp | COCO detection bridge |
+| `scripts/deploy.sh` | yahboom-mcp | **Deprecated** Pi deploy |
+| `ros2/bumi_mission_executor/` | boomy fork | Wheeled mission package |
 
 ## Quick Start
 
@@ -98,19 +101,19 @@ cd bumi-mcp
 just
 ```
 
-This opens an interactive dashboard showing all available commands. Run `just bootstrap` to install dependencies, then `just serve` or `just dev` to start.
+This opens an interactive dashboard showing all available commands. Run `just serve` with `.env` from `.env.example` (mock bridge by default).
 
-### Manual Setup
+```powershell
+Copy-Item .env.example .env
+just serve
+Invoke-RestMethod http://127.0.0.1:10774/api/v1/health
+just test
+just ci
+```
 
-If you don't have `just` installed:
+### Physical bot
 
-
-## Getting Started
-
-1. Set up Tailscale on Bumi and your PC
-2. Install rosbridge in Docker on Bumi's Orin
-3. `./scripts/deploy.sh <bumi-tailscale-ip>`
-4. `YAHBOOM_IP=<bumi-tailscale-ip> uv run python -m mcp_bridge`
+See **[INTEGRATION.md](INTEGRATION.md)** — `BUMI_IP`, `uv sync --extra robot`, telemetry first, then gated motion.
 
 ## License
 

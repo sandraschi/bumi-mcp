@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-# Deploy all Pi-side files to a fresh yahboom_ros2_final setup.
-# Run from the repo root on the PC. Connects via SSH.
-# Usage: ./deploy_pi.sh [pi-ip] [ssh-user]
-# Default: 192.168.1.11 / pi
+# DEPRECATED for Noetix Bumi — Yahboom Raspbot deploy script (ported for reference).
+# Bumi Jetson bringup will use Noetix SDK + rosbridge; do not run against a Bumi until adapted.
+# Usage (Yahboom Pi only): ./scripts/deploy.sh [pi-ip] [ssh-user]
 
 set -e
 IP="${1:-192.168.1.11}"
@@ -15,7 +14,7 @@ echo ""
 
 # ── Config ──────────────────────────────────────────────────────────────────
 DRIVER_CT="yahboom_ros2_final"      # driver container name
-MISSION_SRC="$REPO_ROOT/ros2/boomy_mission_executor"
+MISSION_SRC="$REPO_ROOT/ros2/bumi_mission_executor"
 ME_PY="$REPO_ROOT/minimal_mission_executor.py"
 VB_PY="$REPO_ROOT/vision_bridge.py"
 

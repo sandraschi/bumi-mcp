@@ -10,8 +10,10 @@ from fastapi import APIRouter, FastAPI
 
 from bumi_mcp.config import load_settings
 from bumi_mcp.knowledge import BUMI_HERO, VIRTUAL_TWIN_FLEET
+from bumi_mcp.lifecycle import combined_lifespan
 from bumi_mcp.server import mcp
 from bumi_mcp.tools_manifest import MCP_TOOLS
+from bumi_mcp.api_v1 import router as v1_router
 
 mcp_http = mcp.http_app(path="/mcp")
 router = APIRouter(prefix="/api")
@@ -57,17 +59,18 @@ def build_app() -> FastAPI:
     settings = load_settings()
     app = FastAPI(
         title="bumi-mcp",
-        version="0.1.0",
-        lifespan=mcp_http.lifespan,
+        version="0.2.0",
+        lifespan=combined_lifespan(mcp_http.lifespan),
     )
     app.include_router(router)
+    app.include_router(v1_router)
     app.mount("/mcp", mcp_http)
 
     @app.get("/")
     async def root() -> dict[str, Any]:
         return {
             "service": "bumi-mcp",
-            "version": "0.1.0",
+            "version": "0.2.0",
             "mcp_http": f"http://{settings.host}:{settings.port}/mcp",
             "api": f"http://{settings.host}:{settings.port}/api",
             "webapp": "http://127.0.0.1:10775",
