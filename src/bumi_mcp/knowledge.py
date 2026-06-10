@@ -10,6 +10,8 @@ BUMI_HERO: dict[str, Any] = {
     "vendor": "Noetix Robotics (Beijing) / 诺提克斯",
     "tagline": "Compact consumer humanoid — walking, running, dance, gymnastics; ROS / Linux SDKs.",
     "type": "humanoid",
+    "status": "development",
+    "availability": "Developer kits shipping; production early 2027",
     "specs": {
         "height_cm": 94,
         "weight_kg": 12,
@@ -31,6 +33,11 @@ BUMI_HERO: dict[str, Any] = {
         "Python",
         "C++",
     ],
+    "links": {
+        "GitHub SDK": "https://github.com/Noetix-Robotics/noetix_sdk_e1",
+        "Open source": "https://noetixrobotics.com/opensource",
+        "JD.com": "https://jd.com",
+    },
 }
 
 NOETIX_GITHUB: list[dict[str, str]] = [
