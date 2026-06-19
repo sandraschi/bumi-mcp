@@ -6,6 +6,8 @@ import { FleetPage } from "@/pages/FleetPage";
 import { ToolsPage } from "@/pages/ToolsPage";
 import { SettingsPage } from "@/pages/SettingsPage";
 import { HelpPage } from "@/pages/HelpPage";
+import Logging from "@/pages/Logging";
+import FloatingChat from "@/components/FloatingChat";
 
 export default function App() {
   return (
@@ -19,9 +21,11 @@ export default function App() {
           <Route path="tools" element={<ToolsPage />} />
           <Route path="settings" element={<SettingsPage />} />
           <Route path="help" element={<HelpPage />} />
+          <Route path="logging" element={<Logging />} />
           <Route path="*" element={<Navigate to="/dashboard" replace />} />
         </Route>
       </Routes>
+      <FloatingChat />
     </BrowserRouter>
   );
 }

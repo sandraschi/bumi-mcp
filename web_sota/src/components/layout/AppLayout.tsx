@@ -1,5 +1,5 @@
 import { NavLink, Outlet, useLocation } from "react-router-dom";
-import { Bot, Boxes, HelpCircle, Home, Menu, Settings, Terminal, X } from "lucide-react";
+import { Bot, Boxes, HelpCircle, Home, Menu, Settings, Terminal, X, ScrollText } from "lucide-react";
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
@@ -11,6 +11,7 @@ const nav = [
   { to: "/tools", label: "Tools", icon: Terminal },
   { to: "/settings", label: "Settings", icon: Settings },
   { to: "/help", label: "Help", icon: HelpCircle },
+  { to: "/logging", label: "Logging", icon: ScrollText },
 ] as const;
 
 export function AppLayout() {

@@ -1,0 +1,46 @@
+{
+    "$schema": "https://schema.tauri.app/config/2",
+    "productName": "Bumi MCP",
+    "version": "0.1.0",
+    "identifier": "ai.fleet.bumi-mcp",
+    "build": {
+        "frontendDist": "../web_sota/dist",
+        "beforeDevCommand": "npm --prefix ../web_sota run dev",
+        "beforeBuildCommand": "npm --prefix ../web_sota run build"
+    },
+    "app": {
+        "windows": [
+            {
+                "label": "main",
+                "title": "Bumi MCP",
+                "width": 1280,
+                "height": 860,
+                "minWidth": 700,
+                "minHeight": 500,
+                "resizable": true
+            }
+        ],
+        "security": {
+            "csp": "default-src 'self'; connect-src 'self' http://127.0.0.1:10774 ipc: http://ipc.localhost; img-src 'self' data: http://127.0.0.1:10774; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'"
+        }
+    },
+    "bundle": {
+        "active": true,
+        "targets": ["nsis"],
+        "icon": ["icons/icon.png", "icons/icon.ico"],
+        "resources": [
+            "resources/bumi-mcp-backend.exe"],
+        "windows": {
+            "webviewInstallMode": {
+                "type": "skip"
+            },
+            "nsis": {
+                "installMode": "currentUser",
+                "createDesktopShortcut": true,
+                "createStartMenuShortcut": true,
+                "installerHooks": "./windows/hooks.nsh"
+            }
+        }
+    },
+    "plugins": {}
+}
