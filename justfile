@@ -57,3 +57,10 @@ ci:
 fmt:
     uv run ruff format .
     uv run ruff check --fix .
+
+# Bundle for Claude Desktop (MCPB)
+mcpb-pack:
+    mkdir -p mcpb/src
+    Copy-Item src\\bumi_mcp mcpb\\src\\ -Recurse -Force
+    Remove-Item mcpb\\src\\bumi_mcp\\__pycache__ -Recurse -Force -ErrorAction SilentlyContinue
+    mcpb pack mcpb dist\\bumi-mcp-v0.2.0.mcpb

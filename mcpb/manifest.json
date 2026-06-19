@@ -1,0 +1,24 @@
+{
+  "manifest_version": "0.2",
+  "name": "bumi-mcp",
+  "version": "0.2.0",
+  "description": "MCP server for the Noetix Bumi humanoid robot — product info, specs, market context, virtual twin fleet map, and optional robot bridge control.",
+  "author": { "name": "sandraschi" },
+  "server": {
+    "type": "python",
+    "entry_point": "src/bumi_mcp/__main__.py",
+    "mcp_config": {
+      "command": "uv",
+      "args": ["run", "--directory", "${PWD}", "python", "-m", "bumi_mcp", "--stdio"],
+      "env": {
+        "PYTHONPATH": "${PWD}/src",
+        "PYTHONUNBUFFERED": "1"
+      }
+    }
+  },
+  "tools": [
+    { "name": "bumi", "description": "Noetix Bumi — info, specs, sdk_links, market, robot_status, virtual_twin, fleet_peers." },
+    { "name": "bumi_agentic_workflow", "description": "LLM-planned goals over Bumi + fleet (SEP-1577 sampling)." },
+    { "name": "bumi_quick_start", "description": "MCP prompt — operator brief for Bumi + virtual twin composition." }
+  ]
+}
