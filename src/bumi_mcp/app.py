@@ -22,7 +22,7 @@ from bumi_mcp.server import mcp
 from bumi_mcp.tools_manifest import MCP_TOOLS
 from bumi_mcp.api_v1 import router as v1_router
 
-mcp_http = mcp.http_app(path="/mcp")
+mcp_http = mcp.http_app(path="/")
 router = APIRouter(prefix="/api")
 llm_router = APIRouter(prefix="/api/llm")
 
