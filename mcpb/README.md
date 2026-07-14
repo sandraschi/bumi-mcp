@@ -1,25 +1,25 @@
-# Bumi MCP (MCPB Bundle)
+# bumi-mcp (MCPB Bundle)
 
-MCP server for the Noetix Bumi humanoid robot.
+FastMCP 3.1.0 MCP for Noetix Bumi humanoid — hero specs, OSS links, fleet virtual-twin guidance, optional robot bridge
 
 ## Usage
 
-```json
+Add to \claude_desktop_config.json\:
+\\\json
 {
   "mcpServers": {
-    "bumi": {
+    "bumi-mcp": {
       "command": "uv",
-      "args": ["run", "--directory", "${PWD}", "python", "-m", "bumi_mcp", "--stdio"],
-      "env": { "PYTHONPATH": "${PWD}/src" }
+      "args": ["run", "--directory", "\D:\Dev\repos\bumi-mcp", "python", "-m", "bumi_mcp"],
+      "env": { "PYTHONPATH": "\D:\Dev\repos\bumi-mcp/src" }
     }
   }
 }
-```
+\\\
 
 ## Tools
 
-- **bumi** — product info, specs, SDK links, market analysis, robot status, telemetry, virtual twin fleet map, fleet peers
-- **bumi_agentic_workflow** — LLM-planned multi-step research goals
+- **bumi_tool**: bumi_tool
 
 ## Requirements
 

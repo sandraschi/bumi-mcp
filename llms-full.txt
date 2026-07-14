@@ -1,0 +1,21 @@
+# Bumi-MCP — Full Reference
+
+FastMCP 3.4+ server for Noetix Bumi humanoid — hero specs, OSS links, fleet virtual-twin guidance, optional robot bridge.
+
+## Ports
+| Service | Port |
+|---------|------|
+| Backend (FastAPI + MCP /mcp) | 10774 |
+| Frontend (Vite React) | 10775 |
+
+## MCP Tools
+- `bumi_specs` — Hero robot specifications and capabilities
+- `bumi_links` — OSS and reference links
+- `bumi_guidance` — Virtual-twin guidance and mission planning
+- `bumi_bridge` — Optional physical robot bridge commands
+
+## Configuration
+| Variable | Purpose |
+|----------|---------|
+| `MCP_TRANSPORT` | Transport mode |
+| `BUMI_BRIDGE_ENABLED` | Enable physical robot bridge |

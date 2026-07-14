@@ -53,7 +53,6 @@ def bumi_quick_start(
             "Actual Resonite/world driving is via resonite-mcp and robotics-mcp — compose, don't duplicate."
         )
     return (
-        base
-        + "\nFocus fleet: bumi(operation='fleet_peers') for yahboom/dreame/robotics-mcp context. "
+        base + "\nFocus fleet: bumi(operation='fleet_peers') for yahboom/dreame/robotics-mcp context. "
         "Orchestrate multi-server workflows explicitly in the tool plan."
     )

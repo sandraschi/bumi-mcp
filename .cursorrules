@@ -1,0 +1,11 @@
+## Session Context (Bumi-MCP)
+
+You have access to Noetix Bumi humanoid specs, OSS links, virtual-twin guidance, and optional robot bridge.
+
+**Before starting work:**
+1. Check Bumi specs
+2. Review OSS links and references
+3. Check bridge status if robot is connected
+
+**At end of work:**
+- No cleanup needed (read-only queries are safe)

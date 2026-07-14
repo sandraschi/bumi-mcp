@@ -1,3 +1,4 @@
+# Logic/Dev Bloat
 .venv/
 node_modules/
 __pycache__/
@@ -5,6 +6,7 @@ __pycache__/
 .pytest_cache/
 tests/
 
+# Discovery & Fleet Metadata
 glama.json
 llms.txt
 llms-full.txt
@@ -12,10 +14,12 @@ llms-full.txt
 .github/
 .vscode/
 
+# Build Artifacts
 dist/
 build/
 *.mcpb
 
+# Non-MCP components (webapp, native, scripts)
 native/
 web_sota/
 scripts/

@@ -9,6 +9,7 @@ $WindowStyle = if ($Headless) { 'Hidden' } else { 'Normal' }
 # ------------------------------
 
 # bumi-mcp SOTA dashboard: FastAPI + MCP on 10774, Vite on 10775
+$RepoRoot = Split-Path -Parent $PSScriptRoot
 $BackendPort = 10774
 $FleetStartPath = Join-Path $RepoRoot "scripts\FleetStartMode.ps1"
 if (-not (Test-Path -LiteralPath $FleetStartPath)) {
@@ -19,7 +20,6 @@ if (-not (Test-Path -LiteralPath $FleetStartPath)) {
 
 $FrontendPort = 10775
 $ApiHealth = "http://127.0.0.1:$BackendPort/api/health"
-$RepoRoot = Split-Path -Parent $PSScriptRoot
 $WebRoot = $PSScriptRoot
 
 foreach ($port in @($BackendPort, $FrontendPort)) {

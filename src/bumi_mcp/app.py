@@ -13,14 +13,14 @@ from uuid import uuid4
 import httpx
 from fastapi import APIRouter, FastAPI, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import PlainTextResponse, Response
+from fastapi.responses import PlainTextResponse
 
+from bumi_mcp.api_v1 import router as v1_router
 from bumi_mcp.config import load_settings
 from bumi_mcp.knowledge import BUMI_HERO, VIRTUAL_TWIN_FLEET
 from bumi_mcp.lifecycle import combined_lifespan
 from bumi_mcp.server import mcp
 from bumi_mcp.tools_manifest import MCP_TOOLS
-from bumi_mcp.api_v1 import router as v1_router
 
 mcp_http = mcp.http_app(path="/")
 router = APIRouter(prefix="/api")
@@ -29,6 +29,7 @@ llm_router = APIRouter(prefix="/api/llm")
 
 # ── Ring-buffer activity log ──────────────────────────────────────────
 
+
 class ActivityLog:
     def __init__(self, max_entries: int = 2000):
         self.max_entries = max_entries
@@ -36,10 +37,17 @@ class ActivityLog:
 
     def add(self, level: str, kind: str, detail: str, meta: dict | None = None) -> str:
         entry_id = f"{time.time():.6f}.{uuid4().hex[:6]}"
-        self._entries.append({
-            "id": entry_id, "level": level.upper(), "kind": kind, "detail": detail, "meta": meta or {},
-            "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime()) + f".{int(time.time()*1e6)%1000000:06d}Z",
-        })
+        self._entries.append(
+            {
+                "id": entry_id,
+                "level": level.upper(),
+                "kind": kind,
+                "detail": detail,
+                "meta": meta or {},
+                "timestamp": time.strftime("%Y-%m-%dT%H:%M:%S", time.gmtime())
+                + f".{int(time.time() * 1e6) % 1000000:06d}Z",
+            }
+        )
         return entry_id
 
     def query(self, limit=50, offset=0, level=None, kind=None, search=None, sort="desc", after_id=None) -> dict:
@@ -48,18 +56,27 @@ class ActivityLog:
             try:
                 after_time = float(after_id.split(".")[0])
                 entries = [e for e in entries if float(e["id"].split(".")[0]) > after_time]
-            except (ValueError, IndexError): pass
+            except (ValueError, IndexError):
+                pass
         if level:
             lvls = {"DEBUG": 0, "INFO": 1, "WARNING": 2, "ERROR": 3}
             min_lvl = lvls.get(level.upper(), 1)
             entries = [e for e in entries if lvls.get(e["level"], 1) >= min_lvl]
-        if kind: entries = [e for e in entries if e["kind"] == kind]
+        if kind:
+            entries = [e for e in entries if e["kind"] == kind]
         if search:
             q = search.lower()
             entries = [e for e in entries if q in e["detail"].lower()]
         entries.sort(key=lambda e: e["id"], reverse=(sort == "desc"))
         total = len(entries)
-        return {"entries": entries[offset:offset + limit], "total": total, "limit": limit, "offset": offset, "max_entries": self.max_entries, "sort": sort}
+        return {
+            "entries": entries[offset : offset + limit],
+            "total": total,
+            "limit": limit,
+            "offset": offset,
+            "max_entries": self.max_entries,
+            "sort": sort,
+        }
 
     def stats(self) -> dict:
         levels, kinds = {}, {}
@@ -68,7 +85,9 @@ class ActivityLog:
             kinds[e["kind"]] = kinds.get(e["kind"], 0) + 1
         return {"total": len(self._entries), "max_entries": self.max_entries, "levels": levels, "kinds": kinds}
 
-    def clear(self): self._entries.clear()
+    def clear(self):
+        self._entries.clear()
+
 
 activity_log = ActivityLog()
 
@@ -77,23 +96,43 @@ activity_log = ActivityLog()
 
 log_router = APIRouter(prefix="/api/logs")
 
+
 @log_router.get("")
-async def get_logs(request: Request, limit: int = Query(50, ge=1, le=500), offset: int = Query(0, ge=0),
-                   level: str | None = Query(None), kind: str | None = Query(None),
-                   search: str | None = Query(None), sort: str = Query("desc", regex="^(asc|desc)$"),
-                   after_id: str | None = Query(None)):
-    return activity_log.query(limit=limit, offset=offset, level=level, kind=kind, search=search, sort=sort, after_id=after_id)
+async def get_logs(
+    request: Request,
+    limit: int = Query(50, ge=1, le=500),
+    offset: int = Query(0, ge=0),
+    level: str | None = Query(None),
+    kind: str | None = Query(None),
+    search: str | None = Query(None),
+    sort: str = Query("desc", regex="^(asc|desc)$"),
+    after_id: str | None = Query(None),
+):
+    return activity_log.query(
+        limit=limit, offset=offset, level=level, kind=kind, search=search, sort=sort, after_id=after_id
+    )
+
 
 @log_router.get("/stats")
-async def logs_stats(): return activity_log.stats()
+async def logs_stats():
+    return activity_log.stats()
+
 
 @log_router.get("/export")
-async def logs_export(format: str = Query("json", regex="^(json|csv)$"), level: str | None = Query(None),
-                     kind: str | None = Query(None), search: str | None = Query(None)):
+async def logs_export(
+    format: str = Query("json", regex="^(json|csv)$"),
+    level: str | None = Query(None),
+    kind: str | None = Query(None),
+    search: str | None = Query(None),
+):
     return PlainTextResponse("[]", media_type="application/json")
 
+
 @log_router.delete("")
-async def clear_logs(): activity_log.clear(); return {"success": True, "message": "Logs cleared."}
+async def clear_logs():
+    activity_log.clear()
+    return {"success": True, "message": "Logs cleared."}
+
 
 _FLEET_PATH = Path(__file__).resolve().parent / "data" / "fleet_default.json"
 
@@ -182,11 +221,15 @@ def build_app() -> FastAPI:
     app.add_middleware(
         CORSMiddleware,
         allow_origins=[
-            "http://127.0.0.1:10774", "http://localhost:10774",
-            "http://127.0.0.1:10775", "http://localhost:10775",
-            "http://tauri.localhost", "https://tauri.localhost", "tauri://localhost",
+            "http://127.0.0.1:10774",
+            "http://localhost:10774",
+            "http://127.0.0.1:10775",
+            "http://localhost:10775",
+            "http://tauri.localhost",
+            "https://tauri.localhost",
+            "tauri://localhost",
         ],
-        allow_origin_regex=r"https?://tauri\.localhost(:\d+)?" if _tauri else None,
+        allow_origin_regex=r"https?://(?:[a-zA-Z0-9-]+\.ts\.net|.*?\.tail-[a-f0-9]+\.ts\.net|tauri\.localhost|localhost|127\.0\.0\.1|192\.168\.\d{1,3}\.\d{1,3}|10\.\d{1,3}\.\d{1,3}\.\d{1,3}|100\.\d{1,3}\.\d{1,3}\.\d{1,3})(?::\d+)?$|^tauri://localhost$",
         allow_credentials=True,
         allow_methods=["*"],
         allow_headers=["*"],
