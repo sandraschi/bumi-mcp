@@ -9,7 +9,7 @@ description = "FastMCP 3.1.0 MCP for Noetix Bumi humanoid — hero specs, OSS li
 readme = "README.md"
 requires-python = ">=3.11"
 license = { text = "MIT" }
-authors = [{ name = "Sandra Schieder" }]
+authors = [{ name = "Sandra Schipal" }]
 dependencies = [
     "fastmcp>=3.2,<4",
     "httpx>=0.27.0",
